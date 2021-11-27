@@ -1,24 +1,25 @@
 -- CREATINGS VIEWS SQL FILE --
 USE police;
 -- create a view for the number of witness statements that criminal with SIN 329535483 is reported in
-CREATE VIEW criminalHistory
-AS SELECT COUNT(*)
-FROM witness_statement
-WHERE socialInsuranceNumber = 329535483;
+CREATE VIEW criminalWitnessStatements
+AS SELECT COUNT(w.socialInsuranceNumber) AS witnessOccurences, p.fName AS `first name`, p.lName AS `Last name`
+FROM witness_statement w, people p, criminal c
+WHERE p.fName = 'Lindsy' AND p.lname = 'Elintune'
+AND c.criminalSocialInsuranceNumber = p.socialInsuranceNumber
+AND w.socialInsuranceNumber = c.criminalSocialInsuranceNumber;
 
 SELECT * FROM criminalHistory;
 
-
--- create a view with what gang names are reported in London
+-- Create view that shows the gangs active in Toronto and the number 
 CREATE VIEW gangReport
-AS SELECT c.gangName, r.city
-FROM criminal c, Report r, crime_incident ci
-WHERE c.criminalSocialInsuranceNumber = ci.criminalSocialInsuranceNumber
-AND ci.caseID = r.caseID
-AND r.city = "LONDON"
-GROUP BY c.gangName;
+AS SELECT c.gangName AS `Active gangs`, r.city AS `city`, COUNT(c.gangName) AS `number of incidents`
+FROM criminal c, report r , crime_incident ci
+WHERE r.city = "TORONTO"
+AND c.criminalSocialInsuranceNumber = ci.criminalSocialInsuranceNumber
+AND r.caseID = ci.caseID
+AND c.gangName != "0"
+GROUP BY c.gangName, ci.caseID;
 
-SELECT * FROM gangReport;
 
 -- create view so that officer with social insurance number 341624401 can view the evidence that they logged
 CREATE VIEW OfficerView
