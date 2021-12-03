@@ -29,11 +29,11 @@ export const HeroBg = styled.div`
     align-items: center;
 `;
 export const ImageBg = styled.div`
-    background-image: url(${Image});  
+    
+    background-image: url(${Image});
     width: 100%;
-    margin: 0 0 10px 0;
-    padding-right: 0;
-    z-index: 4;  
+    height: 100%;
+    
 }
 `;
 
