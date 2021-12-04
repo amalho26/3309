@@ -35,7 +35,7 @@ function App() {
                 </Navbar.Collapse>
                 :
                 <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text href="/trends">Log In</Navbar.Text>
+                    <Nav.Link href="/trends">Log In</Nav.Link>
                 </Navbar.Collapse>
                 }
             </Container>
