@@ -11,7 +11,7 @@ app.get('/evidence/caseID/', (req, res) => {
             res.status(400).json({
                 message: err
             });
-            return;
+            return; //hello
         }
 
         if (result.length) res.json(result);
