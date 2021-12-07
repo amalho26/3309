@@ -17,15 +17,9 @@ app.use(express.urlencoded({
 
 app.use('/', [
     require('./routes/trends'),
-    require('./routes/auth')
+    require('./routes/auth'),
+    require('./routes/evidenceTrends')
 ]);
-
-// http://localhost:3005/tweets - GET, POST
-// http://localhost:3005/tweets/user/:id - GET
-// http://localhost:3005/tweets/:id - DELETE
-// http://localhost:3005/authenticate - POST for login session
-
-
 
 app.listen(port, () => {
     console.log(`running on port ${port}`);

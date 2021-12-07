@@ -24,6 +24,7 @@ function App() {
                     <Nav.Link href="/reports">Reports</Nav.Link>
                     <NavDropdown title="Trends" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/trends/crime">Crime Trends</NavDropdown.Item>
+                        <NavDropdown.Item href="/trends/evidence">Evidence Trends</NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Link href="/evidence">Evidence</Nav.Link>
                     <Nav.Link href="/evidence">Witness Statements</Nav.Link>
