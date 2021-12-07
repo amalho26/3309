@@ -8,17 +8,31 @@ import './css/App.css';
 import routes from './conf/routes';
 
 function App() {
-    
+   
+    const [cookies, setCookie, removeCookie] = useCookies(['userId']);
+
+    // We need this to reset the max age of our userId
+    if (cookies && cookies.userId) {
+        setCookie('userId', cookies.userId, {
+            path: '/',
+            maxAge: process.env.REACT_APP_ENV_COOKIES_MAX_AGE
+        });
+    }
+
+    // Checks if the user is logged in
+    function isLoggedIn() {
+        return cookies.userId == 'undefined' || !cookies.userId ? false : true;
+        console.log(cookies.userId);
+    }
+
     return (
         <BrowserRouter>
         <Navbar>
-
-        
             <Container>
                 <Navbar.Brand href="/home">
                     <AiOutlineHome size="2rem" />
                 </Navbar.Brand>
-                {true ?
+                {isLoggedIn ?
                 <Navbar.Collapse className="justify-content-end">
                 <Nav className="ms-auto">
                     <Nav.Link href="/reports">Reports</Nav.Link>
@@ -29,14 +43,16 @@ function App() {
                     <Nav.Link href="/evidenceLog">Evidence</Nav.Link>
                     <Nav.Link href="/evidence">Witness Statements</Nav.Link>
                     <NavDropdown title="Signed in as: Reports" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="/reports/">Report</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => {
+                                removeCookie('userId');
+                            }}>Logout</NavDropdown.Item>
                     </NavDropdown>
                    
                 </Nav>
                 </Navbar.Collapse>
                 :
                 <Navbar.Collapse className="justify-content-end">
-                    <Nav.Link href="/trends">Log In</Nav.Link>
+                    <Nav.Link href="/login">Log In</Nav.Link>
                 </Navbar.Collapse>
                 }
             </Container>

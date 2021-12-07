@@ -71,7 +71,7 @@ class Login extends Component {
 
                     if (response.data.id) {
                         this.setUserCookie(response.data.id);
-                        window.location.href = '/';
+                        window.location.href = '/tweet';
                     } else { // If there is not id
                         this.setState(prevState => {
                             return Object.assign({}, prevState, {

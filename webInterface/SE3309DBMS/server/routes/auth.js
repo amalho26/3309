@@ -3,10 +3,13 @@ var app = express();
 var database = require('../config/database');
 var authValidations = require('../validations/auth');
 
+
 app.post('/authenticate', (req, res) => {
 
+    
     let requestBody = getCredentialsFromHeaders(req);
 
+    // Validation our authentications using Joi npm library
     const { error } = authValidations(requestBody)
 
     if (error) {
@@ -15,7 +18,7 @@ app.post('/authenticate', (req, res) => {
             message: error.details[0].message
         })
     } else {
-        let sql = `SELECT id FROM users WHERE name = '${requestBody.name}' AND stationNo = '${requestBody.stationNo}'`;
+        let sql = `SELECT loginID FROM loginInfo WHERE userName = '${requestBody.email}' AND pwd = '${requestBody.password}'`;
 
         database.query(sql, (err, result) => {
             if (err) {
@@ -26,6 +29,7 @@ app.post('/authenticate', (req, res) => {
             if (result.length) res.json(result[0]);
             else res.json({
                 id : "",
+                message : "Wrong username or password!"
             });
 
         });
@@ -33,20 +37,24 @@ app.post('/authenticate', (req, res) => {
 
 });
 
-
+// Get users credential from headers
 function getCredentialsFromHeaders(req) {
 
- 
+    // Get authorization from headers
     let authorization = req.header('authorization');
+
+    // Convert authorization to array
     let authData = authorization.split(" ");
 
+    // Convert to utf-8
     let token = Buffer.from(`${authData[1]}`, 'base64').toString('utf8');
 
+    // Convert token to array
     let credentials = token.split(":");
 
     return {
-        user: credentials[0],
-        station: credentials[1]
+        email: credentials[0],
+        password : credentials[1]
     }
 }
 

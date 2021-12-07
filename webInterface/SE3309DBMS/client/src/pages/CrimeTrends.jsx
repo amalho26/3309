@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
 import useState from 'react-usestateref'
 import img from '../images/police.jpeg';
+import { useCookies } from 'react-cookie';
+import { Redirect } from "react-router-dom";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { Container, Form, Row, Col, Image, Button} from 'react-bootstrap';
@@ -9,7 +11,7 @@ const axios = require('axios');
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function CrimeTrends () {
-
+    const [cookies, setCookie, removeCookie] = useCookies(['userId']);
     const [selectedCity, setSelectedCity] = useState();
     const [displayChart, setDisplayChart]= useState(false);
     const[crimeType, setCrimeType, crimeTypeRef] = useState();
@@ -29,7 +31,7 @@ export default function CrimeTrends () {
             }
         });       
     }
-
+    
     const chartData = {
         labels: crimeTypeRef.current,
         datasets: [
@@ -79,6 +81,9 @@ export default function CrimeTrends () {
         getCity();
     }, []);
 
+    if (!cookies.userId) {       
+        return <Redirect to="/login" />
+    }
 
     return (
         <Container fluid>
