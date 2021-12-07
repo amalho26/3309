@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
+import useState from 'react-usestateref'
 import img from '../images/police.jpeg';
 import { Container, Form, Row, Col, Image, Button, InputGroup} from 'react-bootstrap';
 import moment from 'moment';
@@ -54,14 +55,6 @@ function onChangeET(onChangeET) //method for when evidenceType is selected
         }
     })
 }
-
-//date
-
-// date = moment.toDate();
-
-
-//time
-//const time = moment.toTime();
 
 //no of evidence collected
 const [noOfEvidenceCollected, setNoOfEvidenceCollected] = useState([{}]);
@@ -223,7 +216,7 @@ function submit()
                 </Col>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Enter Number of Evidence Collected </Form.Label>
-                <Form.Control type="text" placeholder="number collected" onChange={onChangeNumber}/>
+                <Form.Control type="number" placeholder="number collected" onChange={onChangeNumber}/>
                 </Form.Group>
                 <Col md={6}>
                 </Col>
