@@ -20,14 +20,14 @@ app.get('/trends/evidence', (req, res) => {
 });
 
 app.get('/trends/evidence/station', (req, res) => {
-
+//
     const station = req.query.inputStation
     let sql = `SELECT 
     e.evidenceType,
     COUNT(e.evidenceType) AS count
     FROM evidence_log e
     JOIN officer o ON e.officerSIN = o.officerSocialInsuranceNumber
-    JOIN station s ON o.stationNo = s.stationNo
+    JOIN station s ON o.stationNo = s.stationNo 
     WHERE s.stationNo = ${station} AND e.date BETWEEN '2019-01-01' AND '2021-01-01'
     GROUP BY e.evidenceType`;
 
