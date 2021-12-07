@@ -18,7 +18,8 @@ app.use(express.urlencoded({
 app.use('/', [
     require('./routes/trends'),
     require('./routes/auth'),
-    require('./routes/evidenceTrends')
+    require('./routes/evidenceTrends'),
+    require('./routes/evidenceLog')
 ]);
 
 app.listen(port, () => {
