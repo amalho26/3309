@@ -1,0 +1,55 @@
+-- MySQL dump 10.13  Distrib 8.0.27, for macos11 (x86_64)
+--
+-- Host: localhost    Database: police
+-- ------------------------------------------------------
+-- Server version	8.0.27
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `station`
+--
+
+DROP TABLE IF EXISTS `station`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `station` (
+  `stationNo` int NOT NULL,
+  `noOfOfficers` int NOT NULL,
+  `city` varchar(50) NOT NULL,
+  PRIMARY KEY (`stationNo`),
+  KEY `cityname_idx` (`city`),
+  KEY `idx_station_stationNo` (`stationNo`),
+  CONSTRAINT `cityname` FOREIGN KEY (`city`) REFERENCES `area` (`city`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `station`
+--
+
+LOCK TABLES `station` WRITE;
+/*!40000 ALTER TABLE `station` DISABLE KEYS */;
+INSERT INTO `station` VALUES (1,10,'AJAX'),(2,10,'AURORA'),(3,10,'BARRIE'),(4,10,'BRAMPTON'),(5,10,'BURLINGTON'),(6,10,'CALEDON'),(7,10,'KLEINBURG'),(8,10,'LONDON'),(9,10,'MARKHAM'),(10,10,'MILTON'),(11,10,'MISSISSAUGA'),(12,10,'NEWMARKET'),(13,10,'NORTH YORK'),(14,10,'OAKVILLE'),(15,10,'ORANGEVILLE'),(16,10,'OSHAWA'),(17,10,'PARKDALE'),(18,10,'PICKERING'),(19,10,'RICHMOND HILL'),(20,10,'SARNIA'),(21,10,'SCARBOROUGH'),(22,10,'TORONTO'),(23,10,'VAUGHN'),(24,10,'WHITBY'),(25,10,'WINDSOR');
+/*!40000 ALTER TABLE `station` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2021-12-07 17:40:00
