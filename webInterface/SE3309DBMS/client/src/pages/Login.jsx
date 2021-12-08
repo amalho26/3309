@@ -35,6 +35,7 @@ class Login extends Component {
     login = () => {
         if (!this.isNotEmptyFields()) return;
 
+        
         this.setState(prevState => {
             return Object.assign({}, prevState, {
                 isAuthenticating: true,
@@ -46,7 +47,7 @@ class Login extends Component {
 
     loginProcess = () => {
         if (this.state.isAuthenticating) {
-
+            
             // Assign the credentials to the basic OAuth
             const username = this.state.email;
             const password = this.state.password;
@@ -54,7 +55,6 @@ class Login extends Component {
             // Convert to base64
             const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64');
             const url = 'http://localhost:3005/authenticate';
-
             this.axios.post(url, {}, {
                 headers : {
                     'Authorization': `Basic ${token}`
@@ -69,10 +69,12 @@ class Login extends Component {
                     });
                 }, () => {
 
-                    if (response.data.id) {
-                        this.setUserCookie(response.data.id);
-                        window.location.href = '/tweet';
-                    } else { // If there is not id
+                    if (response.data.loginID) {
+                        console.log("yes")
+                        this.setUserCookie(response.data.loginID);
+                        window.location.href = '/home';
+                    } else { 
+                        
                         this.setState(prevState => {
                             return Object.assign({}, prevState, {
                                 errorMessage: response.data.message
@@ -95,7 +97,7 @@ class Login extends Component {
 
     setUserCookie = (id) => {
         this.props.cookies.set('userId', id, {
-            path: '/',
+            path: '/home',
             maxAge: process.env.REACT_APP_ENV_COOKIES_MAX_AGE
         });
     }

@@ -19,7 +19,9 @@ app.use('/', [
     require('./routes/trends'),
     require('./routes/auth'),
     require('./routes/evidenceTrends'),
-    require('./routes/evidenceLog')
+    require('./routes/evidenceLog'),
+    require('./routes/reports'),
+    require('./routes/witnessStatements')
 ]);
 
 app.listen(port, () => {

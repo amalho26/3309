@@ -1,12 +1,34 @@
 import React, {useEffect} from 'react';
-import useState from 'react-usestateref'
+import useState from 'react-usestateref';
+import { useCookies } from 'react-cookie';
 import img from '../images/police.jpeg';
 import { Container, Form, Row, Col, Image, Button, InputGroup} from 'react-bootstrap';
 import moment from 'moment';
+import { Redirect } from "react-router-dom";
 
 const axios = require('axios');
 
 export default function Reports () {
+
+    const [cookies, setCookie, removeCookie] = useCookies(['userId']);
+
+
+    const [sin, setSin] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:3005/authenticate/sin', {
+            params: {
+                id: cookies.userId
+            }
+        })
+        .then((res) => {
+            if (res) {
+                res.data&&res.data.map((record) =>{
+                    setSin(record.loginOfficerID)
+                });
+                
+            }
+        }); 
+    }, []);
 
 //case ID
 const [caseID, setCaseID] = useState([{}]);
@@ -62,6 +84,8 @@ useEffect(() => {
     getCity();
 }, []);
 
+
+
 //officerSIN
 const [officerSIN, setOfficerSIN, officerRef] = useState([{}]);
 const getOfficerSIN = () => {
@@ -116,28 +140,31 @@ function viewReport(){
 //submit button
 function submit()
 {
+    
     let dateTime = new Date();
-
     let currentDate = moment(dateTime).format('YYYY-MM-DD');
-    console.log(caseID, currentDate, arrivalTime, timeOnScene, officerSIN, selectedCity);
-//     axios.post('http://localhost:3005/report/add',{
-//     params: {
-        //rcity : JSON.stringify(selectedCity);
-//     rCase: caseID,
-//     rDate : currentDate,
-//     rTime : curTime,
-//     rArrivalTime: arrivalTime,
-//     rTimeOnScene : timeOnScene,
-//     rOfficerSIN : officerSIN
-//     }      
-//         }).then ((res) =>
-//     {
-//     if (res) {
-// setOutput(res.data);
-// console. log (output)
-//    }
-// });
+    
+    axios.post('http://localhost:3005/reports/add',{
 
+        rsin: sin,
+        rcity : JSON.stringify(selectedCity),
+    rCase: insertedCaseID,
+    rDate : JSON.stringify(currentDate),
+    rArrivalTime: JSON.stringify(arrivalTime),
+    rTimeOnScene : timeOnScene,
+    rOfficerSIN : officerSIN
+         
+        }).then ((res) =>
+    {
+    if (res) {
+        //setOutput(null);
+        console.log ("input")
+   }
+});
+
+if (!cookies.userId) {       
+    return <Redirect to="/login" />
+}
 }
     return (
         <Container fluid>
