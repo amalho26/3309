@@ -28,17 +28,7 @@ app.get('/reports/view/', (req,res) => {
 
 app.post('/reports/add', (req, res) => {
     //caseID, date, arrivalTime, timeOnScene, officerSocialInsuranceNumber, City
-    let date = req.body.rDate;
-    let arrivalTime = req.body.rArrivalTime;
-    let timeOnScene = req.body.rTimeOnScene;
-    let officerSocialInsuranceNumber = req.body.rsin;
-    let city = req.body.rcity;
-    console.log(req.body.rCase)
-    console.log(date)
-    console.log(arrivalTime)
-    console.log(timeOnScene)
-    console.log(officerSocialInsuranceNumber)
-    console.log(city)
+    
 
     let sql = `INSERT INTO report VALUES(${req.body.rCase}, ${req.body.rDate}, ${req.body.rArrivalTime}, ${req.body.rTimeOnScene}, ${req.body.rsin}, ${req.body.rcity})`;
 

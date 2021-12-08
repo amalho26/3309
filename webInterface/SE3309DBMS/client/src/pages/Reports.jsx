@@ -5,11 +5,14 @@ import img from '../images/police.jpeg';
 import { Container, Form, Row, Col, Image, Button, InputGroup} from 'react-bootstrap';
 import moment from 'moment';
 import { Redirect } from "react-router-dom";
+import Modal from 'react-bootstrap/Modal';
 
 const axios = require('axios');
 
 export default function Reports () {
-
+    const [displayModal, setDisplayModal]= useState(false);
+const handleClose = () => setDisplayModal(false);
+const handleShow = () => setDisplayModal(true);
     const [cookies, setCookie, removeCookie] = useCookies(['userId']);
 
 
@@ -75,6 +78,14 @@ const getCity = () => {
     });       
 }
 
+
+const [mcaseId, setMCaseId, caseRef] = useState();
+const [mdate, setMDate, dateRef] = useState();
+const [marrival, setMArrival, arrivalRef] = useState();
+const [mtime, setMTime, mtimeRef] = useState();
+const [mcity, setMCity, mcityRef] = useState();
+
+
 function onChangeOption (event) {
     setSelectedCity(event.target.value);
     //console.log(event.target.value)
@@ -129,13 +140,23 @@ function viewReport(){
         }
     }).then((res) => {
         if (res) {
+            res.data&&res.data.map((record) =>{
+                setMCaseId(record.caseID);
+                setMDate(record.date);
+                setMArrival(record.arrivalTime);
+                setMTime(record.timeOnScene);
+                setMCity(record.city);
+            });
+
         console.log(res.data);
         console.log("server response!");
+        handleShow();
         }
         else
         console.log("no response from server!");
     });
 }
+
 
 //submit button
 function submit()
@@ -229,6 +250,26 @@ if (!cookies.userId) {
                    <Image src={img}/> 
                 </Col>
             </Row>
+            {displayModal?
+                <Modal show={displayModal} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Report #{caseRef.current}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div>Date: {dateRef.current}</div>
+                        <div>Arrival Time: {arrivalRef.current}</div>
+                        <div>Time on Scene: {mtimeRef.current}</div>
+                        <div>City: {mcityRef.current}</div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={handleClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                :
+                null
+            }
         </Container>
     )
 }
